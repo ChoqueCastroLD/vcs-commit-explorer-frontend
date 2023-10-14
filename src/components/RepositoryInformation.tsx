@@ -8,18 +8,16 @@ const RepositoryInformation = ({ data }) => {
 
   return (
     <>
-      <a href={data.owner_url} target="_blank">
-        <div className="flex items-center my-2">
-          <div className="avatar">
-            <div className="w-16 rounded-full">
-              <img src={data.owner_avatar_url} />
-            </div>
-          </div>
-          <div>
-            <strong className='ms-2'>{data.owner}</strong>
+      <div className="flex items-center my-2">
+        <div className="avatar">
+          <div className="w-16 rounded-full">
+            <img src={data.owner_avatar_url} />
           </div>
         </div>
-      </a>
+        <div>
+          <strong className='ms-2'>{data.owner}</strong>
+        </div>
+      </div>
       
       <div className="stats stats-vertical lg:stats-horizontal shadow">
         
