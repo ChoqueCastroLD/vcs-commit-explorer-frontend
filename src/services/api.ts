@@ -17,7 +17,7 @@ async function fetchJSON(url: string) {
 
 export default {
     async fetchRepository(vcs: string, owner: string, repository: string): Promise<any> {
-        const apiUrl = `${BASE_URL}/api/${vcs}/${owner}/${repository}`;
+        const apiUrl = `${BASE_URL}/api/${vcs}/${owner}/${repository}/inspect`;
         return fetchJSON(apiUrl);
     },
     async fetchBranches(vcs: string, owner: string, repository: string) {

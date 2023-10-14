@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import '../styles/App.css';
 import RepositoryInformation from './RepositoryInformation.tsx';
 import BranchSelect from './BranchSelect.tsx';
+import ApiService from '../services/api';
 
 
 function App() {
@@ -14,56 +15,44 @@ function App() {
   const [selectedBranch, setSelectedBranch] = useState('');
 
   useEffect(() => {
-    if (repositoryURL) {
-      setLoading(true);
-      setError(null);
-      
-      const parsedURL = new URL(repositoryURL);
-      const repositoryVSC = parsedURL.hostname.split('.')[0];
-      const repositoryOwner = parsedURL.pathname.split('/')[1];
-      const repositoryName = parsedURL.pathname.split('/')[2];
+    const fetchData = async () => {
+      if (repositoryURL) {
+        setLoading(true);
+        setError(null);
 
-      fetch(
-        `http://localhost:3000/api/${repositoryVSC}/${repositoryOwner}/${repositoryName}/inspect`
-      )
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Failed to fetch data');
-          }
-        })
-        .then((data) => {
-          setData(data);
+        const parsedURL = new URL(repositoryURL);
+        const repositoryVCS = parsedURL.hostname.split('.')[0];
+        const repositoryOwner = parsedURL.pathname.split('/')[1];
+        const repositoryName = parsedURL.pathname.split('/')[2];
+
+        try {
+          const repositoryData = await ApiService.fetchRepository(
+            repositoryVCS,
+            repositoryOwner,
+            repositoryName
+          );
+          setData(repositoryData);
           setLoading(false);
-          return data;
-        })
-        .then((data) => {
-          fetch(
-            `http://localhost:3000/api/${repositoryVSC}/${repositoryOwner}/${repositoryName}/branches`
-          )
-            .then((response) => {
-              if (response.ok) {
-                return response.json();
-              } else {
-                throw new Error('Failed to fetch branches');
-              }
-            })
-            .then((branches) => {
-              setBranches(branches);
-              const selectedBranch = branches.find((branch: { name: any; }) => branch.name === data.default_branch) ?? branches[0];
-              setSelectedBranch(selectedBranch?.name ?? '');
-            })
-            .catch((error) => {
-              setError(error);
-              setLoading(false);
-            });
-        })
-        .catch((error) => {
+
+          const repositoryBranches = await ApiService.fetchBranches(
+            repositoryVCS,
+            repositoryOwner,
+            repositoryName
+          );
+          setBranches(repositoryBranches);
+
+          const selectedBranch = repositoryBranches.find(
+            (branch) => branch.name === repositoryData.default_branch
+          );
+          setSelectedBranch(selectedBranch?.name ?? '');
+        } catch (error) {
           setError(error);
           setLoading(false);
-        });
-    }
+        }
+      }
+    };
+
+    fetchData();
   }, [repositoryURL]);
 
   return (
@@ -72,14 +61,14 @@ function App() {
       <div className="card">
         <input
           type="text"
-          className="input input-bordered input-accent w-full max-w-xs"
+          className="input input-bordered input-accent w-full max-w"
           placeholder="Enter a repository URL"
           onChange={(e) => setRepositoryURL(e.target.value)}
         />
       </div>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      <div className="flex items-center my-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 m-6">
         <div>
           <RepositoryInformation data={data} />
         </div>
