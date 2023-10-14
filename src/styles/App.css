@@ -3,17 +3,9 @@
 @tailwind utilities;
 
 #root {
-  max-width: 1280px;
+  width: 1024px;
+  max-width: 1024px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.repository-text-input {
-  width: 100%;
-  text-align: center;
-  height: 4rem;
-  border-radius: 1rem;
-  border: none;
-  font-size: 1rem;
 }
