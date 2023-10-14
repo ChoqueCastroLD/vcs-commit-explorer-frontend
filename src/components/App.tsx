@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 
 import '../styles/App.css';
+import ApiService from '../services/api';
 import RepositoryInformation from './RepositoryInformation.tsx';
 import BranchSelect from './BranchSelect.tsx';
-import ApiService from '../services/api';
-
+import CommitsList from './CommitsList.tsx';
 
 function App() {
   const [repositoryURL, setRepositoryURL] = useState('');
@@ -13,6 +13,7 @@ function App() {
   const [error, setError] = useState(null);
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState('');
+  const [commits, setCommits] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,9 +56,39 @@ function App() {
     fetchData();
   }, [repositoryURL]);
 
+  useEffect(() => {
+    const fetchCommits = async () => {
+      if (selectedBranch) {
+        const parsedURL = new URL(repositoryURL);
+        const repositoryVCS = parsedURL.hostname.split('.')[0];
+        const repositoryOwner = parsedURL.pathname.split('/')[1];
+        const repositoryName = parsedURL.pathname.split('/')[2];
+        
+        try {
+          const branchCommits = await ApiService.fetchCommits(
+            repositoryVCS,
+            repositoryOwner,
+            repositoryName,
+            selectedBranch
+          );
+          setCommits(branchCommits);
+        } catch (error) {
+          setError(error);
+        }
+      }
+    };
+
+    fetchCommits();
+  }, [selectedBranch, repositoryURL]);
+
   return (
     <>
-      <input type="button" value="Test" className='btn' onClick={() => setRepositoryURL('https://github.com/oven-sh/bun')} />
+      <input
+        type="button"
+        value="Test"
+        className="btn"
+        onClick={() => setRepositoryURL('https://github.com/oven-sh/bun')}
+      />
       <div className="card">
         <input
           type="text"
@@ -77,12 +108,16 @@ function App() {
             branches={branches}
             selectedBranch={selectedBranch}
             onBranchSelect={setSelectedBranch}
-            />
+          />
+          <CommitsList commits={commits} />
         </div>
       </div>
       <p className="read-the-source">
         Check the source code at{' '}
-        <a href="https://github.com/ChoqueCastroLD/vcs-commit-explorer-frontend" target="_blank">
+        <a
+          href="https://github.com/ChoqueCastroLD/vcs-commit-explorer-frontend"
+          target="_blank"
+        >
           Github
         </a>
       </p>
