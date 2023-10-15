@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import "../styles/App.css";
+import { Branch, Commit, Repository } from "../types/api.ts";
 import ApiService from "../services/api";
 import RepositoryInformation from "./RepositoryInformation.tsx";
 import BranchSelect from "./BranchSelect.tsx";
@@ -8,13 +9,13 @@ import CommitsList from "./CommitsList.tsx";
 
 
 function App() {
-  const [repositoryURL, setRepositoryURL] = useState("");
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [branches, setBranches] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState("");
-  const [commits, setCommits] = useState([]);
+  const [repositoryURL, setRepositoryURL] = useState<string>("");
+  const [repository, setRepository] = useState<Repository | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [selectedBranch, setSelectedBranch] = useState<string>("");
+  const [commits, setCommits] = useState<Commit[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +34,7 @@ function App() {
             repositoryOwner,
             repositoryName,
           );
-          setData(repositoryData);
+          setRepository(repositoryData);
           setLoading(false);
 
           const repositoryBranches = await ApiService.fetchBranches(
@@ -47,7 +48,7 @@ function App() {
             (branch) => branch.name === repositoryData.default_branch,
           );
           setSelectedBranch(selectedBranch?.name ?? "");
-        } catch (error) {
+        } catch (error: any) {
           setError(error);
           setLoading(false);
         }
@@ -73,7 +74,7 @@ function App() {
             selectedBranch,
           );
           setCommits(branchCommits);
-        } catch (error) {
+        } catch (error: any) {
           setError(error);
         }
       }
@@ -96,7 +97,7 @@ function App() {
       {error && <p>Error: {error.message}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 m-6">
         <div>
-          <RepositoryInformation data={data} />
+          <RepositoryInformation repository={repository} />
         </div>
         <div>
           <BranchSelect

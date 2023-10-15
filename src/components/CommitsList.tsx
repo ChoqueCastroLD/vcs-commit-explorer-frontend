@@ -1,4 +1,7 @@
-function getColorClass(index: number, commitsLength: number) {
+import { Commit } from "../types/api.ts";
+
+
+function getColorClass(index: number, commitsLength: number): string {
   if (index === 0) {
     return "step-primary";
   }
@@ -10,7 +13,10 @@ function getColorClass(index: number, commitsLength: number) {
   return "";
 }
 
-function CommitsList({ commits }) {
+type CommitsListParams = {
+  commits: Commit[];
+};
+function CommitsList({ commits }: CommitsListParams) {
   return (
     <ul className="steps steps-vertical">
       {commits.map((commit, index) => (

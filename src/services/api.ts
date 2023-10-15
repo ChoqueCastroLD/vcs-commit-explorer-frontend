@@ -1,3 +1,6 @@
+import { Repository, Branch, Commit } from "../types/api.ts";
+
+
 const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
 async function fetchJSON(url: string) {
@@ -16,15 +19,15 @@ async function fetchJSON(url: string) {
 }
 
 export default {
-    async fetchRepository(vcs: string, owner: string, repository: string): Promise<any> {
+    async fetchRepository(vcs: string, owner: string, repository: string): Promise<Repository> {
         const apiUrl = `${BASE_URL}/api/${vcs}/${owner}/${repository}/inspect`;
         return fetchJSON(apiUrl);
     },
-    async fetchBranches(vcs: string, owner: string, repository: string) {
+    async fetchBranches(vcs: string, owner: string, repository: string): Promise<Branch[]> {
         const apiUrl = `${BASE_URL}/api/${vcs}/${owner}/${repository}/branches`;
         return fetchJSON(apiUrl);
     },
-    async fetchCommits(vcs: string, owner: string, repository: string, sha: string) {
+    async fetchCommits(vcs: string, owner: string, repository: string, sha: string): Promise<Commit[]> {
         const apiUrl = `${BASE_URL}/api/${vcs}/${owner}/${repository}/commits/${sha}`;
         return fetchJSON(apiUrl);
     }

@@ -1,25 +1,27 @@
-const RepositoryInformation = ({ data }) => {
-  if (!data) {
-    return null; // No hay datos para mostrar por defecto.
-  }
+import { Repository } from "../types/api.ts";
 
-  return (
+
+type RepositoryInformationParams = {
+  repository: Repository | null;
+};
+function RepositoryInformation({ repository }: RepositoryInformationParams) {
+  return repository && (
     <>
       {/* Stats */}
       <div className="stats stats-vertical lg:stats-horizontal shadow">
         <div className="stat">
           <div className="stat-title">Stars ⭐</div>
-          <div className="stat-value">{data.stars}</div>
+          <div className="stat-value">{repository.stars}</div>
         </div>
 
         <div className="stat">
           <div className="stat-title">Watchers 👀</div>
-          <div className="stat-value">{data.watchers}</div>
+          <div className="stat-value">{repository.watchers}</div>
         </div>
 
         <div className="stat">
           <div className="stat-title">Forks 🍴</div>
-          <div className="stat-value">{data.forks}</div>
+          <div className="stat-value">{repository.forks}</div>
         </div>
       </div>
 
@@ -27,31 +29,31 @@ const RepositoryInformation = ({ data }) => {
       <div className="flex items-center m-6">
         <div className="avatar">
           <div className="w-16 rounded-full">
-            <img src={data.owner_avatar_url} />
+            <img src={repository.owner_avatar_url} />
           </div>
         </div>
         <div>
-          <strong className="ms-2">{data.owner}</strong>
+          <strong className="ms-2">{repository.owner}</strong>
         </div>
       </div>
 
       {/* Repository */}
       <div className="text-left">
         <p>
-          <strong>Repository:</strong> {data.name}
+          <strong>Repository:</strong> {repository.name}
         </p>
         <p>
-          <strong>Description:</strong> {data.description}
+          <strong>Description:</strong> {repository.description}
         </p>
         <p>
-          <strong>Primary Language:</strong> {data.language}
+          <strong>Primary Language:</strong> {repository.language}
         </p>
         <br />
         <p>
-          <strong>Created at:</strong> {data.created_at}
+          <strong>Created at:</strong> {repository.created_at}
         </p>
         <p>
-          <strong>Updated at:</strong> {data.updated_at}
+          <strong>Updated at:</strong> {repository.updated_at}
         </p>
       </div>
     </>
