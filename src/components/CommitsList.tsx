@@ -25,7 +25,7 @@ function CommitsList({ commits }: CommitsListProps) {
           className={`step ${getColorClass(index, commits.length)}`}
           data-content={commits.length - index}
         >
-          <p className="text-left m-2">
+          <div className="text-left m-2">
             <div>
               <div className="avatar placeholder me-2">
                 <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
@@ -53,7 +53,7 @@ function CommitsList({ commits }: CommitsListProps) {
             <br />
             <span>{commit.message.trim()}</span>
             <div className="divider"></div>
-          </p>
+          </div>
         </li>
       ))}
     </ul>
