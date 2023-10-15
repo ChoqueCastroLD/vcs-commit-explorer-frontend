@@ -1,12 +1,12 @@
 import { Branch } from "../types/api.ts";
 
 
-type BranchSelectParams = {
+type BranchSelectProps = {
   branches: Branch[];
   selectedBranch: string;
   onBranchSelect: (branch: string) => void;
 }
-const BranchSelect = ({ branches, selectedBranch, onBranchSelect }: BranchSelectParams) => {
+const BranchSelect = ({ branches, selectedBranch, onBranchSelect }: BranchSelectProps) => {
   return branches.length > 0 && (
     <select
       className="select select-secondary w-full max-w-xs m-4"

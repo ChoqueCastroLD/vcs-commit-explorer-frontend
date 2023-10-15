@@ -13,10 +13,10 @@ function getColorClass(index: number, commitsLength: number): string {
   return "";
 }
 
-type CommitsListParams = {
+type CommitsListProps = {
   commits: Commit[];
 };
-function CommitsList({ commits }: CommitsListParams) {
+function CommitsList({ commits }: CommitsListProps) {
   return (
     <ul className="steps steps-vertical">
       {commits.map((commit, index) => (

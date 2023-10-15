@@ -1,10 +1,10 @@
 import { Repository } from "../types/api.ts";
 
 
-type RepositoryInformationParams = {
+type RepositoryInformationProps = {
   repository: Repository | null;
 };
-function RepositoryInformation({ repository }: RepositoryInformationParams) {
+function RepositoryInformation({ repository }: RepositoryInformationProps) {
   return repository && (
     <>
       {/* Stats */}
