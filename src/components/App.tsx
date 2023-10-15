@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
-import '../styles/App.css';
-import ApiService from '../services/api';
-import RepositoryInformation from './RepositoryInformation.tsx';
-import BranchSelect from './BranchSelect.tsx';
-import CommitsList from './CommitsList.tsx';
+import "../styles/App.css";
+import ApiService from "../services/api";
+import RepositoryInformation from "./RepositoryInformation.tsx";
+import BranchSelect from "./BranchSelect.tsx";
+import CommitsList from "./CommitsList.tsx";
+
 
 function App() {
-  const [repositoryURL, setRepositoryURL] = useState('');
+  const [repositoryURL, setRepositoryURL] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [branches, setBranches] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState("");
   const [commits, setCommits] = useState([]);
 
   useEffect(() => {
@@ -22,15 +23,15 @@ function App() {
         setError(null);
 
         const parsedURL = new URL(repositoryURL);
-        const repositoryVCS = parsedURL.hostname.split('.')[0];
-        const repositoryOwner = parsedURL.pathname.split('/')[1];
-        const repositoryName = parsedURL.pathname.split('/')[2];
+        const repositoryVCS = parsedURL.hostname.split(".")[0];
+        const repositoryOwner = parsedURL.pathname.split("/")[1];
+        const repositoryName = parsedURL.pathname.split("/")[2];
 
         try {
           const repositoryData = await ApiService.fetchRepository(
             repositoryVCS,
             repositoryOwner,
-            repositoryName
+            repositoryName,
           );
           setData(repositoryData);
           setLoading(false);
@@ -38,14 +39,14 @@ function App() {
           const repositoryBranches = await ApiService.fetchBranches(
             repositoryVCS,
             repositoryOwner,
-            repositoryName
+            repositoryName,
           );
           setBranches(repositoryBranches);
 
           const selectedBranch = repositoryBranches.find(
-            (branch) => branch.name === repositoryData.default_branch
+            (branch) => branch.name === repositoryData.default_branch,
           );
-          setSelectedBranch(selectedBranch?.name ?? '');
+          setSelectedBranch(selectedBranch?.name ?? "");
         } catch (error) {
           setError(error);
           setLoading(false);
@@ -60,16 +61,16 @@ function App() {
     const fetchCommits = async () => {
       if (selectedBranch) {
         const parsedURL = new URL(repositoryURL);
-        const repositoryVCS = parsedURL.hostname.split('.')[0];
-        const repositoryOwner = parsedURL.pathname.split('/')[1];
-        const repositoryName = parsedURL.pathname.split('/')[2];
-        
+        const repositoryVCS = parsedURL.hostname.split(".")[0];
+        const repositoryOwner = parsedURL.pathname.split("/")[1];
+        const repositoryName = parsedURL.pathname.split("/")[2];
+
         try {
           const branchCommits = await ApiService.fetchCommits(
             repositoryVCS,
             repositoryOwner,
             repositoryName,
-            selectedBranch
+            selectedBranch,
           );
           setCommits(branchCommits);
         } catch (error) {
@@ -87,7 +88,7 @@ function App() {
         type="button"
         value="Test"
         className="btn"
-        onClick={() => setRepositoryURL('https://github.com/oven-sh/bun')}
+        onClick={() => setRepositoryURL("https://github.com/oven-sh/bun")}
       />
       <div className="card">
         <input
@@ -113,13 +114,7 @@ function App() {
         </div>
       </div>
       <p className="read-the-source">
-        Check the source code at{' '}
-        <a
-          href="https://github.com/ChoqueCastroLD/vcs-commit-explorer-frontend"
-          target="_blank"
-        >
-          Github
-        </a>
+        Check the source code at <a href="https://github.com/ChoqueCastroLD/vcs-commit-explorer-frontend" target="_blank">Github</a>
       </p>
     </>
   );

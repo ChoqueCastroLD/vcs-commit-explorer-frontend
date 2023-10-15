@@ -1,13 +1,13 @@
 function getColorClass(index: number, commitsLength: number) {
   if (index === 0) {
-    return 'step-primary';
+    return "step-primary";
   }
 
   if (index === commitsLength - 1) {
-    return 'step-success';
+    return "step-success";
   }
 
-  return '';
+  return "";
 }
 
 function CommitsList({ commits }) {
@@ -18,31 +18,36 @@ function CommitsList({ commits }) {
           key={index}
           className={`step ${getColorClass(index, commits.length)}`}
           data-content={commits.length - index}
-          >
-            <p className='text-left m-2'>
-              <div>
-                <div className="avatar placeholder me-2">
-                  <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                    <span className="text-xs uppercase">{commit.author_name[0] ?? "?"}</span>
-                  </div>
+        >
+          <p className="text-left m-2">
+            <div>
+              <div className="avatar placeholder me-2">
+                <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+                  <span className="text-xs uppercase">
+                    {commit.author_name[0] ?? "?"}
+                  </span>
                 </div>
-                <span className='ms-2'>{commit.author_name}</span>
-                {commit.author_name !== commit.committer_name &&
+              </div>
+              <span className="ms-2">{commit.author_name}</span>
+              {commit.author_name !== commit.committer_name &&
+                (
                   <>
                     <br />
                     <div className="avatar placeholder">
                       <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-                        <span className="text-xs uppercase">{commit.committer_name[0] ?? "?"}</span>
+                        <span className="text-xs uppercase">
+                          {commit.committer_name[0] ?? "?"}
+                        </span>
                       </div>
                     </div>
-                    <span className='ms-2'>{commit.committer_name}</span>
+                    <span className="ms-2">{commit.committer_name}</span>
                   </>
-                }
-              </div>
-              <br />
-              <span>{commit.message.trim()}</span>
-              <div className="divider"></div>
-            </p>
+                )}
+            </div>
+            <br />
+            <span>{commit.message.trim()}</span>
+            <div className="divider"></div>
+          </p>
         </li>
       ))}
     </ul>
