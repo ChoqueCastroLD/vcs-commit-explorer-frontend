@@ -1,5 +1,5 @@
 const BranchSelect = ({ branches, selectedBranch, onBranchSelect }) => {
-  return (
+  return branches.length > 0 && (
     <select
       className="select select-secondary w-full max-w-xs m-4"
       value={selectedBranch}
