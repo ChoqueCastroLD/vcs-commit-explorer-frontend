@@ -93,8 +93,8 @@ function App() {
           onChange={(e) => setRepositoryURL(e.target.value)}
         />
       </div>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {loading && <span className="loading loading-infinity loading-md m-4"></span>}
+      {error && <p className="m-4">Error: {error.message}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 m-6">
         <div>
           <RepositoryInformation repository={repository} />
