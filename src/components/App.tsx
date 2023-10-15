@@ -84,16 +84,10 @@ function App() {
 
   return (
     <>
-      <input
-        type="button"
-        value="Test"
-        className="btn"
-        onClick={() => setRepositoryURL("https://github.com/oven-sh/bun")}
-      />
       <div className="card">
         <input
           type="text"
-          className="input input-bordered input-accent w-full max-w"
+          className="input input-bordered input-accent text-center w-full max-w"
           placeholder="Enter a repository URL"
           onChange={(e) => setRepositoryURL(e.target.value)}
         />
@@ -113,9 +107,6 @@ function App() {
           <CommitsList commits={commits} />
         </div>
       </div>
-      <p className="read-the-source">
-        Check the source code at <a href="https://github.com/ChoqueCastroLD/vcs-commit-explorer-frontend" target="_blank">Github</a>
-      </p>
     </>
   );
 }
