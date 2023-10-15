@@ -1,5 +1,3 @@
-import React from 'react';
-
 function getColorClass(index: number, commitsLength: number) {
   if (index === 0) {
     return 'step-primary';

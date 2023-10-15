@@ -1,9 +1,6 @@
-import React from 'react';
-
-
 const RepositoryInformation = ({ data }) => {
   if (!data) {
-    return null; // No hay datos para mostrar.
+    return null; // No hay datos para mostrar por defecto.
   }
 
   return (
@@ -45,6 +42,7 @@ const RepositoryInformation = ({ data }) => {
         <p><strong>Repository:</strong> {data.name}</p>
         <p><strong>Description:</strong> {data.description}</p>
         <p><strong>Primary Language:</strong> {data.language}</p>
+        <br />
         <p><strong>Created at:</strong> {data.created_at}</p>
         <p><strong>Updated at:</strong> {data.updated_at}</p>
       </div>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const BranchSelect = ({ branches, selectedBranch, onBranchSelect }) => {
   return (
     <select
