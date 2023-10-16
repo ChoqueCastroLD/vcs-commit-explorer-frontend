@@ -6,6 +6,7 @@ import ApiService from "../services/api";
 import RepositoryInformation from "./RepositoryInformation.tsx";
 import BranchSelect from "./BranchSelect.tsx";
 import CommitsList from "./CommitsList.tsx";
+import BackgroundCanvas from "./BackgroundCanvas.tsx";
 
 
 function App() {
@@ -85,6 +86,12 @@ function App() {
 
   return (
     <>
+      <BackgroundCanvas
+        repository={repository}
+        branches={branches}
+        commits={commits}
+        className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-[-100]"
+      />
       <div className="card">
         <input
           type="text"
