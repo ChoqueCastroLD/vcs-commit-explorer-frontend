@@ -5,6 +5,12 @@ type RepositoryInformationProps = {
   repository: Repository | null;
 };
 function RepositoryInformation({ repository }: RepositoryInformationProps) {
+  const updated_at = (new Date(repository?.updated_at || "")).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return repository && (
     <>
       {/* Stats */}
@@ -39,21 +45,12 @@ function RepositoryInformation({ repository }: RepositoryInformationProps) {
 
       {/* Repository */}
       <div className="text-left">
-        <p>
-          <strong>Repository:</strong> {repository.name}
-        </p>
-        <p>
-          <strong>Description:</strong> {repository.description}
-        </p>
+        <h4>{repository.name}</h4>
+        <p>{repository.description}</p>
         <p>
           <strong>Primary Language:</strong> {repository.language}
-        </p>
-        <br />
-        <p>
-          <strong>Created at:</strong> {repository.created_at}
-        </p>
-        <p>
-          <strong>Updated at:</strong> {repository.updated_at}
+          <br />
+          <strong>Last Update:</strong> {updated_at}
         </p>
       </div>
     </>
